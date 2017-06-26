@@ -119,6 +119,7 @@ violet.defineGoal({
     resolve: (response) => {
      response.say('Great.');
      console.log('here\'s what I heard: ' + response.get('[[reminderText]]'));
+     response.set('{{reminderGoal}}', true );
   }}]
 });
 

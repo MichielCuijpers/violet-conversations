@@ -107,21 +107,15 @@ violet.respondTo({
 violet.respondTo({
   expecting: ['Can you set a reminder for me?', 'I would like to set a reminder'],
   resolve: (response) => {
-   response.say('Sure.');
-   response.addGoal('{{reminderGoal}}');
+   response.say('What\'s your reminder?');
 }});
 
-violet.defineGoal({
-  goal: '{{reminderGoal}}',
-  prompt: ['What\'s your reminder?'],
-  respondTo: [{
-    expecting: ['Please add the following: [[reminderText]]'],
-    resolve: (response) => {
-     response.say('Great.');
-     console.log('here\'s what I heard: ' + response.get('[[reminderText]]'));
-     response.set('{{reminderGoal}}', true );
-  }}]
-});
+violet.respondTo({
+  expecting: ['Please add the following: [[reminderText]]'],
+  resolve: (response) => {
+   response.say('Sure.');
+   console.log('here\'s what I heard: ' + response.get('[[reminderText]]'));
+}});
 
 violet.registerIntents();
 

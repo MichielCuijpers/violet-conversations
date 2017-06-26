@@ -40,8 +40,6 @@ violet.addPhraseEquivalents([
   ['I\'d', 'I would']
 ]);
 
-violet.addTopLevelGoal('{{reminderGoal}}');
-
 violet.respondTo({
   expecting: ['Check in', 'Can I check in', 'I would like to check in'],
   resolve: (response) => {

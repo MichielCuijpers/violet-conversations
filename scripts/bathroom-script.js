@@ -113,7 +113,7 @@ violet.respondTo({
 violet.respondTo({
   expecting: ['Please add the following: [[reminderText]]'],
   resolve: (response) => {
-   response.say('Sure.');
+   response.say('Got it! I heard ' + response.get('[[reminderText]]'));
    console.log('here\'s what I heard: ' + response.get('[[reminderText]]'));
 }});
 

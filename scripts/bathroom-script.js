@@ -115,7 +115,7 @@ violet.defineGoal({
   goal: '{{reminderGoal}}',
   prompt: ['What\'s your reminder?'],
   respondTo: [{
-    expecting: ['I need to set the following reminder: [[reminderText]]'],
+    expecting: ['Please add the following: [[reminderText]]'],
     resolve: (response) => {
      response.say('Great.');
      console.log('here\'s what I heard: ' + response.get('[[reminderText]]'));

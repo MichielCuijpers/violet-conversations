@@ -6,7 +6,6 @@ var violetUtils = require('../lib/violetUtils.js')(violet);
 var violetSFStore = require('../lib/violetSFStore.js');
 violet.setPersistentStore(violetSFStore.store);
 
-violet.setPersistentStore(violetSFStore.store);
 violetSFStore.store.propOfInterest = {
   'appointment': ['doctor_name', 'appointment_date_time']
 }
@@ -40,6 +39,15 @@ violet.addPhraseEquivalents([
   ['When\'s', 'When is'],
   ['I\'d', 'I would']
 ]);
+
+violet.addTopLevelGoal('{{reminderGoal}}');
+
+violet.respondTo({
+  expecting: ['Check in', 'Can I check in', 'I would like to check in'],
+  resolve: (response) => {
+   response.say('Sure.');
+   response.addGoal('{{checkIn}}');
+}});
 
 violet.respondTo({
  expecting: ['When is my appointment with [[doctor]]?', 'When do I see [[doctor]] next', 'Do I have an upcoming appointment with [[doctor]]'],
@@ -98,7 +106,6 @@ violet.respondTo({
   }
 });
 
-
 violet.respondTo({
   expecting: ['Can you set a reminder for me?', 'I would like to set a reminder'],
   resolve: (response) => {
@@ -113,8 +120,10 @@ violet.defineGoal({
     expecting: ['I need to set the following reminder: [[reminderText]]'],
     resolve: (response) => {
      response.say('Great.');
-     console(response.get('[[reminderText]]'));
+     console.log('here\'s what I heard: ' + response.get('[[reminderText]]'));
   }}]
 });
+
+violet.registerIntents();
 
 module.exports = violet;

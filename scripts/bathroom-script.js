@@ -105,9 +105,9 @@ violet.respondTo({
 });
 
 violet.respondTo({
-  expecting: ['Can you set a reminder for me?', 'I would like to set a reminder'],
+  expecting: ['Can you set a reminder for me', 'I would like to set a reminder'],
   resolve: (response) => {
-   response.say('What\'s your reminder?');
+   response.say('What is your reminder');
 }});
 
 violet.respondTo({

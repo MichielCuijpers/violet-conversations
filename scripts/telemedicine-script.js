@@ -27,7 +27,7 @@ Violet: Great, I have your vitals. Connecting you to Dr Sally Soulsoother in Mia
 violet.addKeyTypes({
   'symptomList': 'AMAZON.LITERAL',
   'diabetesSymptomsList': {
-    'symptom': 'symptomDesc',
+    'type': 'symptomDesc',
     'values': ['fatigue', 'thirst', 'urination']
   }
 });

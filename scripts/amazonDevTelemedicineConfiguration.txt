@@ -1,0 +1,76 @@
+{
+  "intents": [
+    {
+      "intent": "setAlert"
+    },
+    {
+      "intent": "unsetAlert"
+    },
+    {
+      "intent": "closeSession"
+    },
+    {
+      "intent": "IntentA"
+    },
+    {
+      "intent": "IntentB",
+      "slots": [
+        {
+          "name": "time",
+          "type": "NUMBER"
+        },
+        {
+          "name": "timeUnit",
+          "type": "timeUnitType"
+        }
+      ]
+    },
+    {
+      "intent": "IntentC"
+    },
+    {
+      "intent": "IntentD"
+    },
+    {
+      "intent": "IntentE"
+    },
+    {
+      "intent": "IntentF"
+    },
+    {
+      "intent": "IntentG",
+      "slots": [
+        {
+          "name": "diabetesSymptomsList",
+          "type": "symptomDesc"
+        }
+      ]
+    }
+  ]
+}
+
+
+--
+
+
+
+setAlert set alert
+unsetAlert disable alert
+unsetAlert clear alert
+closeSession I am good
+closeSession No I am good
+closeSession Thanks
+closeSession Thank you
+IntentA What is the current time
+IntentB Advance {time} {timeUnit}
+IntentC Can you help me
+IntentD Great
+IntentD Not bad at all
+IntentE Bad
+IntentE Exhausted
+IntentE I am not feeling well
+IntentF No
+IntentF None
+IntentF feeling great
+IntentG I have {diabetesSymptomsList}
+IntentG {diabetesSymptomsList}

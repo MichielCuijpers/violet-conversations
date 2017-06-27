@@ -25,7 +25,11 @@ Violet: Great, I have your vitals. Connecting you to Dr Sally Soulsoother in Mia
 
 //Violet queries for list of doctors associated with me and creates an array of expected results
 violet.addKeyTypes({
-  'symptomList': 'AMAZON.LITERAL'
+  'symptomList': 'AMAZON.LITERAL',
+  'diabetesSymptomsList': {
+    'symptom': 'symptomDesc',
+    'values': ['frequent urination', 'extreme thirst', 'fatigue', 'thirst', 'urination']
+  }
 });
 
 //common across multiple goals
@@ -64,9 +68,9 @@ violet.defineGoal({
     resolve: (response) => {
      response.say('Great. I think you don\'t need me today');
   }}, {
-    expecting: ['I have [[symptomList]]', '[[symptomList]'],
+    expecting: ['I have [[diabetesSymptomsList]]', '[[diabetesSymptomsList]]'],
     resolve: (response) => {
-      var symptoms = response.get('[[symptomList]]');
+      var symptoms = response.get('[[diabetesSymptomsList]]');
       console.log(symptoms);
       if(symptoms && symptoms.indexOf('urination') >= 0)
         response.say('Frequent urination is a symptom of increased blood sugar');
@@ -76,6 +80,7 @@ violet.defineGoal({
 
       if(symptoms && symptoms.indexOf('fatigue') >= 0)
         response.say('Fatigue is a symptom of increased blood sugar');
+
   }}]
 });
 

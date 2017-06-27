@@ -68,7 +68,7 @@ violet.defineGoal({
     resolve: (response) => {
      response.say('Great. I think you don\'t need me today');
   }}, {
-    expecting: ['I have [[diabetesSymptomsList]]', '[[diabetesSymptomsList]]'],
+    expecting: ['Here are my symptoms [[diabetesSymptomsList]]', '[[diabetesSymptomsList]]'],
     resolve: (response) => {
       var symptoms = response.get('[[diabetesSymptomsList]]');
       console.log(symptoms);

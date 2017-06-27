@@ -28,7 +28,7 @@ violet.addKeyTypes({
   'symptomList': 'AMAZON.LITERAL',
   'diabetesSymptomsList': {
     'symptom': 'symptomDesc',
-    'values': ['frequent urination', 'extreme thirst', 'fatigue', 'thirst', 'urination']
+    'values': ['fatigue', 'thirst', 'urination']
   }
 });
 

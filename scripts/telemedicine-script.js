@@ -66,7 +66,16 @@ violet.defineGoal({
   }}, {
     expecting: ['I have [[symptomList]]'],
     resolve: (response) => {
-      response.say('I hear you have the following symptoms ' + response.get('[[symptomList]]'));
+      var symptoms = response.get('[[symptomList]]');
+
+      if(symptoms && symptoms.indexOf('urination') >= 0)
+        response.say('Frequent urination is a symptom of increased blood sugar');
+
+      if(symptoms && symptoms.indexOf('thirst') >= 0)
+        response.say('Extreme thirst is a symptom of increased blood sugar');
+
+      if(symptoms && symptoms.indexOf('fatigue') >= 0)
+        response.say('Fatigue is a symptom of increased blood sugar');
   }}]
 });
 

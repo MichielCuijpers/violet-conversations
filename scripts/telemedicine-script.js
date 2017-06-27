@@ -25,7 +25,7 @@ Violet: Great, I have your vitals. Connecting you to Dr Sally Soulsoother in Mia
 
 //Violet queries for list of doctors associated with me and creates an array of expected results
 violet.addKeyTypes({
- 
+  'symptomList': 'AMAZON.LITERAL'
 });
 
 //common across multiple goals
@@ -58,15 +58,15 @@ violet.defineGoal({
 
 violet.defineGoal({
   goal: '{{quickCheckIn}}',
-  prompt: ['I am sorry to hear that. I see that you have been taking your glucophage as prescribed. Do you have increased urination?'],
+  prompt: ['I am sorry to hear that. I see that you have been taking your glucophage as prescribed. Which symptoms are you feeling today?'],
   respondTo: [{
-    expecting: ['No'],
+    expecting: ['No', 'None', 'feeling great'],
     resolve: (response) => {
-     response.say('Great.');
+     response.say('Great. I think you don\'t need me today');
   }}, {
-    expecting: ['Yes'],
+    expecting: ['I have [[symptomList]]'],
     resolve: (response) => {
-      response.say('Increased urination is a sign of increased blood sugar');
+      response.say('I hear you have the following symptoms ' + response.get('[[symptomList]]'));
   }}]
 });
 

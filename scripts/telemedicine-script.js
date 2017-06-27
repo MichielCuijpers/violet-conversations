@@ -35,6 +35,13 @@ violet.addPhraseEquivalents([
 
 violet.addTopLevelGoal('{{telemedicine}}');
 
+violet.respondTo({
+  expecting: ['Can you help me?'],
+  resolve: (response) => {
+   response.say('Sure.');
+   response.addGoal('{{telemedicine}}');
+}});
+
 violet.defineGoal({
   goal: '{{telemedicine}}',
   prompt: ['Great to see you in person. How are you feeling today?'],

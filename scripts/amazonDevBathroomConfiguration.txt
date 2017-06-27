@@ -1,0 +1,74 @@
+setAlert set alert
+unsetAlert disable alert
+unsetAlert clear alert
+closeSession I am good
+closeSession No I am good
+closeSession Thanks
+closeSession Thank you
+IntentA What is the current time
+IntentB Advance {time} {timeUnit}
+IntentC Check in
+IntentC Can I check in
+IntentC I would like to check in
+IntentD When is my appointment with {doctor}
+IntentD When do I see {doctor} next
+IntentD Do I have an upcoming appointment with {doctor}
+IntentE Can you set a reminder for me
+IntentE I would like to set a reminder
+IntentF Please add the following {Ask doctor about frequent urination thirst and other symptoms|reminderText}
+
+--
+
+{
+  "intents": [
+    {
+      "intent": "setAlert"
+    },
+    {
+      "intent": "unsetAlert"
+    },
+    {
+      "intent": "closeSession"
+    },
+    {
+      "intent": "IntentA"
+    },
+    {
+      "intent": "IntentB",
+      "slots": [
+        {
+          "name": "time",
+          "type": "NUMBER"
+        },
+        {
+          "name": "timeUnit",
+          "type": "timeUnitType"
+        }
+      ]
+    },
+    {
+      "intent": "IntentC"
+    },
+    {
+      "intent": "IntentD",
+      "slots": [
+        {
+          "name": "doctor",
+          "type": "AMAZON.US_FIRST_NAME"
+        }
+      ]
+    },
+    {
+      "intent": "IntentE"
+    },
+    {
+      "intent": "IntentF",
+      "slots": [
+        {
+          "name": "reminderText",
+          "type": "AMAZON.LITERAL"
+        }
+      ]
+    }
+  ]
+}

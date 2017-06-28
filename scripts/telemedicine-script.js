@@ -26,7 +26,15 @@ Violet: Great, I have your vitals. Connecting you to Dr Sally Soulsoother in Mia
 //Violet queries for list of doctors associated with me and creates an array of expected results
 violet.addKeyTypes({
   'symptomList': 'AMAZON.LITERAL',
-  'diabetesSymptomsList': {
+  'diabetesSymptomOne': {
+    'type': 'symptomDesc',
+    'values': ['fatigue', 'thirst', 'urination']
+  },
+  'diabetesSymptomTwo': {
+    'type': 'symptomDesc',
+    'values': ['fatigue', 'thirst', 'urination']
+  },
+  'diabetesSymptomThree': {
     'type': 'symptomDesc',
     'values': ['fatigue', 'thirst', 'urination']
   }
@@ -68,19 +76,12 @@ violet.defineGoal({
     resolve: (response) => {
      response.say('Great. I think you don\'t need me today');
   }}, {
-    expecting: ['I have lots of symptoms', 'Here are my symptoms [[diabetesSymptomsList]]', '[[diabetesSymptomsList]]'],
+    expecting: ['I have [[diabetesSymptomOne]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]]'],
     resolve: (response) => {
-      var symptoms = response.get('[[diabetesSymptomsList]]');
-      console.log(symptoms);
-      if(symptoms && symptoms.indexOf('urination') >= 0)
-        response.say('Frequent urination is a symptom of increased blood sugar');
-
-      if(symptoms && symptoms.indexOf('thirst') >= 0)
-        response.say('Extreme thirst is a symptom of increased blood sugar');
-
-      if(symptoms && symptoms.indexOf('fatigue') >= 0)
-        response.say('Fatigue is a symptom of increased blood sugar');
-
+      response.get('diabetesSymptomOne ' + [[diabetesSymptomOne]]);
+      response.get('diabetesSymptomTwo ' + [[diabetesSymptomTwo]]);
+      response.get('diabetesSymptomThree ' + [[diabetesSymptomThree]]);
+      response.say('Logging');
   }}]
 });
 

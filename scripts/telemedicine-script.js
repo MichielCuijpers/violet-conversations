@@ -8,7 +8,7 @@ violet.setPersistentStore(violetSFStore.store);
 
 violetSFStore.store.propOfInterest = {
   'appointment': ['doctor_name', 'appointment_date_time'],
-  'symptomCheckins': ['reportDate', 'symptom']
+  'symptomCheckin': ['reportDate', 'symptom']
 }
 
 /*
@@ -94,9 +94,9 @@ violet.defineGoal({
       console.log('diabetesSymptomFour ' + response.get('[[diabetesSymptomFour]]'));
       console.log('diabetesSymptomFive ' + response.get('[[diabetesSymptomFive]]'));
 
-      response.set('<<symptomCheckins.reportDate>>', new Date() );
-      response.set('<<symptomCheckins.symptom>>', response.get('[[diabetesSymptomOne]]') );
-      response.store('<<symptomCheckins>>');
+      response.set('<<symptomCheckin.reportDate>>', new Date() );
+      response.set('<<symptomCheckin.symptom>>', response.get('[[diabetesSymptomOne]]') );
+      response.store('<<symptomCheckin>>');
       response.say('Logging your symptoms');
   }}]
 });

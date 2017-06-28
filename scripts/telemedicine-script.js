@@ -78,9 +78,9 @@ violet.defineGoal({
   }}, {
     expecting: ['I have [[diabetesSymptomOne]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]]'],
     resolve: (response) => {
-      console.log('diabetesSymptomOne ' + response.get([[diabetesSymptomOne]]));
-      console.log('diabetesSymptomTwo ' + response.get([[diabetesSymptomTwo]]));
-      console.log('diabetesSymptomThree ' + response.get([[diabetesSymptomThree]]));
+      console.log('diabetesSymptomOne ' + response.get('[[diabetesSymptomOne]]'));
+      console.log('diabetesSymptomTwo ' + response.get('[[diabetesSymptomTwo]]'));
+      console.log('diabetesSymptomThree ' + response.get('[[diabetesSymptomThree]]'));
       response.say('Logging');
   }}]
 });

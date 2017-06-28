@@ -58,44 +58,58 @@ violet.addPhraseEquivalents([
 violet.addTopLevelGoal('{{telemedicine}}');
 
 violet.respondTo({
-  expecting: ['Can you help me?'],
+  expecting: ['I am not feeling well'],
   resolve: (response) => {
-   response.say('Sure.');
-   response.addGoal('{{telemedicine}}');
+   response.addGoal('{{quickCheckIn}}');
 }});
-
-violet.defineGoal({
-  goal: '{{telemedicine}}',
-  prompt: ['Great to see you in person. How are you feeling today?'],
-  respondTo: [{
-    expecting: ['Great', 'Not bad at all'],
-    resolve: (response) => {
-     response.say('Great.');
-  }}, {
-    expecting: ['Bad', 'Exhausted', 'I am not feeling well'],
-    resolve: (response) => {
-      response.addGoal('{{quickCheckIn}}');
-  }}]
-});
 
 violet.defineGoal({
   goal: '{{quickCheckIn}}',
   prompt: ['I am sorry to hear that. I see that you have been taking your glucophage as prescribed. Which symptoms are you feeling today?'],
   respondTo: [{
-    expecting: ['No', 'None', 'feeling great'],
+    expecting: ['No', 'None', 'Nevermind'],
     resolve: (response) => {
-     response.say('Great. I think you don\'t need me today');
+     response.say('If you need me, I\'m here to help');
   }}, {
     expecting: ['I have [[diabetesSymptomOne]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]] and [[diabetesSymptomFive]]'],
     resolve: (response) => {
-      console.log('diabetesSymptomOne ' + response.get('[[diabetesSymptomOne]]'));
-      console.log('diabetesSymptomTwo ' + response.get('[[diabetesSymptomTwo]]'));
-      console.log('diabetesSymptomThree ' + response.get('[[diabetesSymptomThree]]'));
-      console.log('diabetesSymptomFour ' + response.get('[[diabetesSymptomFour]]'));
-      console.log('diabetesSymptomFive ' + response.get('[[diabetesSymptomFive]]'));
+      var diabetesSymptomOne = response.get('[[diabetesSymptomOne]]');
+      var diabetesSymptomTwo = response.get('[[diabetesSymptomTwo]]');
+      var diabetesSymptomThree = response.get('[[diabetesSymptomThree]]');
+      var diabetesSymptomFour = response.get('[[diabetesSymptomFour]]');
+      var diabetesSymptomFive = response.get('[[diabetesSymptomFive]]');
+
+      console.log('diabetesSymptomOne ' + diabetesSymptomOne);
+      console.log('diabetesSymptomTwo ' + diabetesSymptomTwo);
+      console.log('diabetesSymptomThree ' + diabetesSymptomThree);
+      console.log('diabetesSymptomFour ' + diabetesSymptomFour);
+      console.log('diabetesSymptomFive ' + diabetesSymptomFive);
+
+      var symptoms = '';
+
+      if (diabetesSymptomOne) {
+        symptoms = symptoms + '; ' + diabetesSymptomOne;
+      }
+
+      if (diabetesSymptomTwo) {
+        symptoms = symptoms + '; ' + diabetesSymptomTwo;
+      }
+      
+      if (diabetesSymptomThree) {
+        symptoms = symptoms + '; ' + diabetesSymptomThree;
+      }
+      
+      if (diabetesSymptomFour) {
+        symptoms = symptoms + '; ' + diabetesSymptomFour;
+      }
+      
+      if (diabetesSymptomFive) {
+        symptoms = symptoms + '; ' + diabetesSymptomFive;
+      }
+      
 
       response.set('<<symptomCheckin.reportDate>>', new Date() );
-      response.set('<<symptomCheckin.symptom>>', response.get('[[diabetesSymptomOne]]') );
+      response.set('<<symptomCheckin.symptom>>', symptoms );
       response.store('<<symptomCheckin>>');
       response.say('Logging your symptoms');
   }}]

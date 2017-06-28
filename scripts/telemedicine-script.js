@@ -85,12 +85,14 @@ violet.defineGoal({
     resolve: (response) => {
      response.say('Great. I think you don\'t need me today');
   }}, {
-    expecting: ['I have [[diabetesSymptomOne]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]]'],
+    expecting: ['I have [[diabetesSymptomOne]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]] and [[diabetesSymptomFive]]'],
     resolve: (response) => {
       console.log('diabetesSymptomOne ' + response.get('[[diabetesSymptomOne]]'));
       console.log('diabetesSymptomTwo ' + response.get('[[diabetesSymptomTwo]]'));
       console.log('diabetesSymptomThree ' + response.get('[[diabetesSymptomThree]]'));
-      response.say('Logging');
+      console.log('diabetesSymptomFour ' + response.get('[[diabetesSymptomFour]]'));
+      console.log('diabetesSymptomFive ' + response.get('[[diabetesSymptomFive]]'));
+      response.say('Logging your symptoms');
   }}]
 });
 

@@ -28,16 +28,25 @@ violet.addKeyTypes({
   'symptomList': 'AMAZON.LITERAL',
   'diabetesSymptomOne': {
     'type': 'symptomDesc',
-    'values': ['fatigue', 'thirst', 'urination']
+    'values': ['fatigue', 'thirst', 'frequent urination', 'drinking a lot of water', 'low blood sugar', 'dry mouth', 'blurred vision', 'vision blurred', 'pain in feet', 'pain in legs', 'vomiting', 'nausea', 'weakness', 'stomach pain', 'belly ache', 'fast breathing']
   },
   'diabetesSymptomTwo': {
     'type': 'symptomDesc',
-    'values': ['fatigue', 'thirst', 'urination']
+    'values': ['fatigue', 'thirst', 'frequent urination', 'drinking a lot of water', 'low blood sugar', 'dry mouth', 'blurred vision', 'vision blurred', 'pain in feet', 'pain in legs', 'vomiting', 'nausea', 'weakness', 'stomach pain', 'belly ache', 'fast breathing']
   },
   'diabetesSymptomThree': {
     'type': 'symptomDesc',
-    'values': ['fatigue', 'thirst', 'urination']
+    'values': ['fatigue', 'thirst', 'frequent urination', 'drinking a lot of water', 'low blood sugar', 'dry mouth', 'blurred vision', 'vision blurred', 'pain in feet', 'pain in legs', 'vomiting', 'nausea', 'weakness', 'stomach pain', 'belly ache', 'fast breathing']
+  },
+  'diabetesSymptomFour': {
+    'type': 'symptomDesc',
+    'values': ['fatigue', 'thirst', 'frequent urination', 'drinking a lot of water', 'low blood sugar', 'dry mouth', 'blurred vision', 'vision blurred', 'pain in feet', 'pain in legs', 'vomiting', 'nausea', 'weakness', 'stomach pain', 'belly ache', 'fast breathing']
+  },
+  'diabetesSymptomFive': {
+    'type': 'symptomDesc',
+    'values': ['fatigue', 'thirst', 'frequent urination', 'drinking a lot of water', 'low blood sugar', 'dry mouth', 'blurred vision', 'vision blurred', 'pain in feet', 'pain in legs', 'vomiting', 'nausea', 'weakness', 'stomach pain', 'belly ache', 'fast breathing']
   }
+
 });
 
 //common across multiple goals

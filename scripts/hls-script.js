@@ -11,19 +11,6 @@ violetSFStore.store.propOfInterest = {
   'symptomCheckin': ['reportDate', 'symptom']
 }
 
-/*
-Violet (Avatar on Screen): Hi Paul, nice to see you in person. How can I help you? 
-Paul: I'm not feeling well
-Violet: I'm sorry to hear that. You have been very regular with your diabetes medication. Have you had any of these symptoms recently? 
-<List of common related symptoms on screen that he can touch, they are personalized from wisdom of crowd and are related to common setback patients see in early diabetes managemnet> 
-Paul hits None of These
-Violet: Sorry I couldn't help you Paul. I have a primary care physician available - would you like me to connect you to her?
-Paul: Yes please
-Violet: Great, let me help you with a quick vitals check before we do that - heartbeat and blood pressure. Would you mind standing on the Vitals kiosk on your right? 
-Paul stands on kiosk, it prints out his BMI, weight, heartbeat etc and also pops it on the screen. It's basically one of these (http://www.tigermedical.com/Products/Body-Composition-Scale__HEABCS-G6-LIMBS__HEABCS-G6-.aspx?invsrc=adwords_tm&gclid=CIjW0rKO1dQCFQJrfgodaV4CVQ)
-Violet: Great, I have your vitals. Connecting you to Dr Sally Soulsoother in Miami now...
-*/
-
 //Violet queries for list of doctors associated with me and creates an array of expected results
 violet.addKeyTypes({
   'symptomList': 'AMAZON.LITERAL',
@@ -47,7 +34,6 @@ violet.addKeyTypes({
     'type': 'symptomDesc',
     'values': ['fatigue', 'thirst', 'frequent urination', 'drinking a lot of water', 'low blood sugar', 'dry mouth', 'blurred vision', 'vision blurred', 'pain in feet', 'pain in legs', 'vomiting', 'nausea', 'weakness', 'stomach pain', 'belly ache', 'fast breathing']
   }
-
 });
 
 //common across multiple goals
@@ -65,13 +51,13 @@ violet.respondTo({
 
 violet.defineGoal({
   goal: '{{quickCheckIn}}',
-  prompt: ['I am sorry to hear that. I see that you have been taking your glucophage as prescribed. Which symptoms are you feeling today?'],
+  prompt: ['I am sorry to hear that. What\'s going on?', 'I am sorry to hear that. Tell me what you\'re feeling'],
   respondTo: [{
-    expecting: ['No', 'None', 'Nevermind'],
+    expecting: ['Nevermind', 'Gotta run now', 'Don\'t want to talk about it'],
     resolve: (response) => {
-     response.say('If you need me, I\'m here to help');
+     response.say('Okay. If you need me, I\'m here to help');
   }}, {
-    expecting: ['I have [[diabetesSymptomOne]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]]', 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]] and [[diabetesSymptomFive]]'],
+    expecting: ['I\'m feeling [[diabetesSymptomOne]]', 'I\'m feeling [[diabetesSymptomOne]] and [[diabetesSymptomTwo]]', 'I\'m feeling [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]]', 'I\'m feeling[[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]]', 'I\'m feeling [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]] and [[diabetesSymptomFive]]'],
     resolve: (response) => {
       var diabetesSymptomOne = response.get('[[diabetesSymptomOne]]');
       var diabetesSymptomTwo = response.get('[[diabetesSymptomTwo]]');

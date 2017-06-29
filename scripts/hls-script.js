@@ -113,7 +113,7 @@ violet.defineGoal({
 
 violet.defineGoal({
   goal: '{{continueSymptoms}}',
-  prompt: ['Go on'],
+  prompt: ['Got it. Anything else', 'Got it. Go on'],
   respondTo: [{
     expecting: ['That\'s it'],
     resolve: (response) => {

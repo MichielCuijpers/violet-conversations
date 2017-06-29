@@ -8,7 +8,7 @@ violet.setPersistentStore(violetSFStore.store);
 
 violetSFStore.store.propOfInterest = {
   'appointment': ['doctor_name', 'appointment_date_time'],
-  'symptomCheckin': ['reportDate', 'symptom']
+  'Citizen_Preference': ['Name', 'Biking']
 }
 
 //Violet queries for list of doctors associated with me and creates an array of expected results
@@ -106,6 +106,9 @@ violet.defineGoal({
       console.log('diabetesSymptomThree ' + diabetesSymptomThree);
       console.log('diabetesSymptomFour ' + diabetesSymptomFour);
       console.log('diabetesSymptomFive ' + diabetesSymptomFive);
+
+      yield response.store('Citizen_Preference', {'Name': 'IP-0004',
+                                                  'Biking': 'true'});
 
       response.addGoal('{{continueSymptoms}}');
   }}]

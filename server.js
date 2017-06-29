@@ -20,7 +20,8 @@ srvrInstance.listen(process.env.PORT || 8080);
 // var script = require('./scripts/fins.js');
 //var script = require("./scripts/hls-diabetes.js");
 //var script = require("./scripts/bathroom-script.js");
-var script = require("./scripts/telemedicine-script.js");
+//var script = require("./scripts/telemedicine-script.js");
+var script = require("./scripts/hls-script.js");
 script.setServerApp(express, alexaRouter);
 
 var wss = new ws.Server({ server: srvrInstance  });

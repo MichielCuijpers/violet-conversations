@@ -49,6 +49,22 @@ violet.addKeyTypes({
     'type': 'symptomDesc',
   },
   'diabetesSymptomFive': {
+    'type': 'symptomDesc',
+  },
+  'diabetesSymptomSix': {
+    'type': 'symptomDesc',
+  },
+  'diabetesSymptomSeven': {
+    'type': 'symptomDesc',
+  },
+  'diabetesSymptomEight': {
+    'type': 'symptomDesc',
+  },
+  'diabetesSymptomNine': {
+    'type': 'symptomDesc',
+  },
+  'diabetesSymptomTen': {
+    'type': 'symptomDesc',
   }
 });
 
@@ -62,18 +78,22 @@ violet.addTopLevelGoal('{{telemedicine}}');
 violet.respondTo({
   expecting: ['I am not feeling well'],
   resolve: (response) => {
-   response.addGoal('{{quickCheckIn}}');
+   response.addGoal('{{symptoms}}');
 }});
 
 violet.defineGoal({
-  goal: '{{quickCheckIn}}',
+  goal: '{{symptoms}}',
   prompt: ['I am sorry to hear that. What\'s going on?', 'I am sorry to hear that. Tell me what you\'re feeling'],
   respondTo: [{
     expecting: ['Nevermind', 'Gotta run now', 'Don\'t want to talk about it'],
     resolve: (response) => {
      response.say('Okay. If you need me, I\'m here to help');
   }}, {
-    expecting: ['[[diabetesSymptomOne]]', '[[diabetesSymptomOne]] and [[diabetesSymptomTwo]]', '[[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]]', '[[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]]', '[[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]] and [[diabetesSymptomFive]]'],
+    expecting: ['I have [[diabetesSymptomOne]]', 
+                'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]]', 
+                'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]]', 
+                'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]]', 
+                'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]] and [[diabetesSymptomFive]]'],
     resolve: (response) => {
       var diabetesSymptomOne = response.get('[[diabetesSymptomOne]]');
       var diabetesSymptomTwo = response.get('[[diabetesSymptomTwo]]');
@@ -87,33 +107,37 @@ violet.defineGoal({
       console.log('diabetesSymptomFour ' + diabetesSymptomFour);
       console.log('diabetesSymptomFive ' + diabetesSymptomFive);
 
-      var symptoms = '';
+      response.addGoal('{{continueSymptoms}}');
+  }}]
+});
 
-      if (diabetesSymptomOne) {
-        symptoms = symptoms + '; ' + diabetesSymptomOne;
-      }
+violet.defineGoal({
+  goal: '{{continueSymptoms}}',
+  prompt: ['Go on'],
+  respondTo: [{
+    expecting: ['That\'s it'],
+    resolve: (response) => {
+     response.say('that\'s a lot of symptoms');
+  }}, {
+    expecting: ['I have [[diabetesSymptomSix]]', 
+                'I have [[diabetesSymptomSix]] and [[diabetesSymptomSeven]]', 
+                'I have [[diabetesSymptomSix]] and [[diabetesSymptomSeven]] and [[diabetesSymptomEight]]', 
+                'I have [[diabetesSymptomSix]] and [[diabetesSymptomSeven]] and [[diabetesSymptomEight]] and [[diabetesSymptomNine]]', 
+                'I have [[diabetesSymptomSix]] and [[diabetesSymptomSeven]] and [[diabetesSymptomEight]] and [[diabetesSymptomNine]] and [[diabetesSymptomTen]]'],
+    resolve: (response) => {
+      var diabetesSymptomSix = response.get('[[diabetesSymptomSix]]');
+      var diabetesSymptomSeven = response.get('[[diabetesSymptomSeven]]');
+      var diabetesSymptomEight = response.get('[[diabetesSymptomEight]]');
+      var diabetesSymptomNine = response.get('[[diabetesSymptomNine]]');
+      var diabetesSymptomTen = response.get('[[diabetesSymptomTen]]');
 
-      if (diabetesSymptomTwo) {
-        symptoms = symptoms + '; ' + diabetesSymptomTwo;
-      }
-      
-      if (diabetesSymptomThree) {
-        symptoms = symptoms + '; ' + diabetesSymptomThree;
-      }
-      
-      if (diabetesSymptomFour) {
-        symptoms = symptoms + '; ' + diabetesSymptomFour;
-      }
-      
-      if (diabetesSymptomFive) {
-        symptoms = symptoms + '; ' + diabetesSymptomFive;
-      }
-      
+      console.log('diabetesSymptomSix ' + diabetesSymptomSix);
+      console.log('diabetesSymptomSeven ' + diabetesSymptomSeven);
+      console.log('diabetesSymptomEight ' + diabetesSymptomEight);
+      console.log('diabetesSymptomNine ' + diabetesSymptomNine);
+      console.log('diabetesSymptomTen ' + diabetesSymptomTen);
 
-      response.set('<<symptomCheckin.reportDate>>', new Date() );
-      response.set('<<symptomCheckin.symptom>>', symptoms );
-      response.store('<<symptomCheckin>>');
-      response.say('Logging your symptoms');
+      response.addGoal('{{continueSymptoms}}');
   }}]
 });
 

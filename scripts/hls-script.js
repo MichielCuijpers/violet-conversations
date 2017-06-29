@@ -95,53 +95,90 @@ violet.defineGoal({
                 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]]', 
                 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]] and [[diabetesSymptomFive]]'],
     resolve: function *(response) {
-      var diabetesSymptomOne = response.get('[[diabetesSymptomOne]]');
-      var diabetesSymptomTwo = response.get('[[diabetesSymptomTwo]]');
-      var diabetesSymptomThree = response.get('[[diabetesSymptomThree]]');
-      var diabetesSymptomFour = response.get('[[diabetesSymptomFour]]');
-      var diabetesSymptomFive = response.get('[[diabetesSymptomFive]]');
+      var symptomOne = response.get('[[diabetesSymptomOne]]');
+      var symptomTwo = response.get('[[diabetesSymptomTwo]]');
+      var symptomThree = response.get('[[diabetesSymptomThree]]');
+      var symptomFour = response.get('[[diabetesSymptomFour]]');
+      var symptomFive = response.get('[[diabetesSymptomFive]]');
 
-      console.log('diabetesSymptomOne ' + diabetesSymptomOne);
-      console.log('diabetesSymptomTwo ' + diabetesSymptomTwo);
-      console.log('diabetesSymptomThree ' + diabetesSymptomThree);
-      console.log('diabetesSymptomFour ' + diabetesSymptomFour);
-      console.log('diabetesSymptomFive ' + diabetesSymptomFive);
+      console.log('diabetesSymptomOne ' + symptomOne);
+      console.log('diabetesSymptomTwo ' + symptomTwo);
+      console.log('diabetesSymptomThree ' + symptomThree);
+      console.log('diabetesSymptomFour ' + symptomFour);
+      console.log('diabetesSymptomFive ' + symptomFive);
 
+      /*
+      TODO: set the user preferences in haiku based on symptoms
       yield response.store('Citizen_Preference', {'Profile_Name': 'Default',
                                                   'Biking': 'true'});
+      */
 
-      response.addGoal('{{continueSymptoms}}');
+      var symptoms = '';
+
+      if (symptomOne) {
+        symptoms = symptoms + '; ' + symptomOne;
+      }
+
+      if (symptomTwo) {
+        symptoms = symptoms + '; ' + symptomTwo;
+      }
+      
+      if (symptomThree) {
+        symptoms = symptoms + '; ' + symptomThree;
+      }
+      
+      if (symptomFour) {
+        symptoms = symptoms + '; ' + symptomFour;
+      }
+      
+      if (symptomFive) {
+        symptoms = symptoms + '; ' + symptomFive;
+      }
+
+      /*
+      TODO: Given the symptoms, it should query salesforce to figure out best match. 
+      set the user preferences in haiku based on condition
+      */
+      response.set('{{condition}}', 'diabetes');
+      response.set('{{symptoms}}', 'next');
+      response.addGoal('{{schedule}}');
   }}]
 });
 
 violet.defineGoal({
-  goal: '{{continueSymptoms}}',
-  prompt: ['Got it. Anything else', 'Got it. Go on'],
-  respondTo: [{
-    expecting: ['That\'s it'],
-    resolve: (response) => {
-     response.say('that\'s a lot of symptoms');
-  }}, {
-    expecting: ['I have [[diabetesSymptomSix]]', 
-                'I have [[diabetesSymptomSix]] and [[diabetesSymptomSeven]]', 
-                'I have [[diabetesSymptomSix]] and [[diabetesSymptomSeven]] and [[diabetesSymptomEight]]', 
-                'I have [[diabetesSymptomSix]] and [[diabetesSymptomSeven]] and [[diabetesSymptomEight]] and [[diabetesSymptomNine]]', 
-                'I have [[diabetesSymptomSix]] and [[diabetesSymptomSeven]] and [[diabetesSymptomEight]] and [[diabetesSymptomNine]] and [[diabetesSymptomTen]]'],
-    resolve: (response) => {
-      var diabetesSymptomSix = response.get('[[diabetesSymptomSix]]');
-      var diabetesSymptomSeven = response.get('[[diabetesSymptomSeven]]');
-      var diabetesSymptomEight = response.get('[[diabetesSymptomEight]]');
-      var diabetesSymptomNine = response.get('[[diabetesSymptomNine]]');
-      var diabetesSymptomTen = response.get('[[diabetesSymptomTen]]');
+  goal: '{{schedule}}',
+  prompt: ['Given your symptoms, we recommend lab work and consultation with a doctor to determine if you have early signs of diabetes. Would you like me to schedule an appt for you?'],
+  respondTo: [
+    {expecting: ['Nevermind', 'Gotta run now', 'Nope'],
+      resolve: (response) => {
+       response.set('{{schedule}}', 'next');
+       response.say('Okay. If you need me, I\'m here to help');
+      }
+    }, 
+    {expecting: ['Yes', 'Sure', 'Please'],
+      resolve: (response) => {
+        //response.set('{{schedule}}', 'next');
+        response.addGoal('{{confirmAppointment}}');
+      }
+    }
+  ]
+});
 
-      console.log('diabetesSymptomSix ' + diabetesSymptomSix);
-      console.log('diabetesSymptomSeven ' + diabetesSymptomSeven);
-      console.log('diabetesSymptomEight ' + diabetesSymptomEight);
-      console.log('diabetesSymptomNine ' + diabetesSymptomNine);
-      console.log('diabetesSymptomTen ' + diabetesSymptomTen);
-
-      response.addGoal('{{continueSymptoms}}');
-  }}]
+violet.defineGoal({
+  goal: '{{confirmAppointment}}',
+  prompt: ['I see something is available for Thursday morning. Will that work for you?'],
+  respondTo: [
+    {expecting: ['Nevermind', 'Gotta run now', 'Nope'],
+      resolve: (response) => {
+       response.say('Okay. If you need me, I\'m here to help');
+      }
+    }, 
+    {expecting: ['That\'s perfect'],
+      resolve: (response) => {
+        response.say('I\'ve scheduled you. When your lab results come back, we\'ll evaluate the treatment options and determine best options for you.');        
+      }
+    }
+  ]
 });
 
 violet.registerIntents();

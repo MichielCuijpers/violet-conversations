@@ -94,7 +94,7 @@ violet.defineGoal({
                 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]]', 
                 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]]', 
                 'I have [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]] and [[diabetesSymptomFive]]'],
-    resolve: (response) => {
+    resolve: function *(response) {
       var diabetesSymptomOne = response.get('[[diabetesSymptomOne]]');
       var diabetesSymptomTwo = response.get('[[diabetesSymptomTwo]]');
       var diabetesSymptomThree = response.get('[[diabetesSymptomThree]]');

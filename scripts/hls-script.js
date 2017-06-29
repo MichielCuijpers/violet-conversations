@@ -182,7 +182,7 @@ violet.defineGoal({
     resolve: (response) => {
      response.say('Okay. If you need me, I\'m here to help');
   }}, {
-    expecting: ['I am feeling [[diabetesSymptomOne]]', 'I am feeling [[diabetesSymptomOne]] and [[diabetesSymptomTwo]]', 'I am feeling [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]]', 'I am feeling [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]]', 'I am feeling [[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]] and [[diabetesSymptomFive]]'],
+    expecting: ['[[diabetesSymptomOne]]', '[[diabetesSymptomOne]] and [[diabetesSymptomTwo]]', '[[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]]', '[[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]]', '[[diabetesSymptomOne]] and [[diabetesSymptomTwo]] and [[diabetesSymptomThree]] and [[diabetesSymptomFour]] and [[diabetesSymptomFive]]'],
     resolve: (response) => {
       var diabetesSymptomOne = response.get('[[diabetesSymptomOne]]');
       var diabetesSymptomTwo = response.get('[[diabetesSymptomTwo]]');

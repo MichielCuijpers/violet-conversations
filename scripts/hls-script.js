@@ -100,7 +100,7 @@ violet.addTopLevelGoal('{{telemedicine}}');
 violet.respondTo({
   expecting: ['I am not feeling well'],
   resolve: (response) => {
-   response.addGoal('{{symptoms}}');
+   response.addGoal('{{schedule}}');
 }});
 
 violet.defineGoal({
@@ -184,7 +184,7 @@ violet.defineGoal({
        response.say('Okay. If you need me, I\'m here to help');
       }
     }, 
-    {expecting: ['Yes that works'],
+    {expecting: ['Yes that works for me'],
       resolve: (response) => {
         //response.set('{{schedule}}', 'next');
         response.say('Okay. Let me check your calendars and find the best time');

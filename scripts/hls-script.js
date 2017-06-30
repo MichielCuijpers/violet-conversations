@@ -7,12 +7,31 @@ var violetSFStore = require('../lib/violetSFStore.js');
 violet.setPersistentStore(violetSFStore.store);
 
 violetSFStore.store.propOfInterest = {
-  'appointment': ['doctor_name', 'appointment_date_time'],
+  'appointment': ['doctorName', 'appointmentDateTime'],
   'Citizen_Preference': ['Profile_Name', 'Biking']
+}
+
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July', 'August', 'September', 'October', 'November', 'December'];
+
+Date.daysBetween = function( date1, date2 ) {
+  //Get 1 day in milliseconds
+  var one_day=1000*60*60*24;
+
+  // Convert both dates to milliseconds
+  var date1_ms = date1.getTime();
+  var date2_ms = date2.getTime();
+
+  // Calculate the difference in milliseconds
+  var difference_ms = date2_ms - date1_ms;
+    
+  // Convert back to days and return
+  return Math.round(difference_ms/one_day); 
 }
 
 //Violet queries for list of doctors associated with me and creates an array of expected results
 violet.addKeyTypes({
+  'doctor': 'AMAZON.US_FIRST_NAME',
   'symptomList': 'AMAZON.LITERAL',
   'diabetesSymptomOne': {
     'type': 'symptomDesc',
@@ -70,7 +89,9 @@ violet.addKeyTypes({
 
 //common across multiple goals
 violet.addPhraseEquivalents([
- ['I\'m', 'I am']
+ ['I\'m', 'I am'],
+ ['When\'s', 'When is'],
+ ['I\'d', 'I would']
 ]);
 
 violet.addTopLevelGoal('{{telemedicine}}');
@@ -140,7 +161,20 @@ violet.defineGoal({
       set the user preferences in haiku based on condition
       */
       response.set('{{condition}}', 'diabetes');
-      response.set('{{symptoms}}', 'next');
+
+      if (symptoms.indexOf('nausea') >= 0) {
+        violetSFStore.updater.updatePreferences('nausea__c', true);
+      }
+
+      if (symptoms.indexOf('fatigue') >= 0) {
+        violetSFStore.updater.updatePreferences('fatigue__c', true);
+      }
+
+      if (symptoms.indexOf('frequent urination') >= 0) {
+        violetSFStore.updater.updatePreferences('frequent_urination__c', true);
+      }
+
+      //response.set('{{symptoms}}', 'next');
       response.addGoal('{{schedule}}');
   }}]
 });
@@ -179,6 +213,64 @@ violet.defineGoal({
       }
     }
   ]
+});
+
+violet.respondTo({
+ expecting: ['When is my appointment with [[doctor]]?', 'When do I see [[doctor]] next', 'Do I have an upcoming appointment with [[doctor]]'],
+  resolve: function *(response) {
+    var apptDateArray = yield response.load('<<appointment>>', '<<appointment.doctorName>>', response.get('[[doctor]]'), null, 'AND appointmentDateTime__c >= today ORDER BY appointmentDateTime__c ASC NULLS FIRST LIMIT 1');
+    
+    console.log(apptDateArray);
+
+    if (apptDateArray.length > 0) {
+      var apptDateTime = response.get('<<appointment>>')[0].appointmentDateTime;
+
+      if (apptDateTime) {
+        var apptDate = new Date(apptDateTime);
+        var noDayOfWeek = apptDate.getDay();
+        var dayOfTheWeek = days[noDayOfWeek];
+        var daysBetween = Date.daysBetween(new Date(), apptDate);
+        var apptMonth = months[apptDate.getMonth()];
+        var apptDayOfTheMonth = apptDate.getDate();
+        var hour = apptDate.getHours();
+        var minutes = apptDate.getMinutes();
+        var minutesString = minutes;
+
+        var amOrPm = 'A M';
+
+        if (hour >= 12) {
+          amOrPm = 'P M'
+        }
+
+        if (hour > 12) {
+          hour = hour - 12;
+        }
+
+        if (minutes == 0) {
+          minutesString = '';
+        }
+
+
+        console.log(daysBetween);
+          
+        if (daysBetween == 0) {
+          response.say('Your next appointment with ' + response.get('[[doctor]]') + ' is today at ' + hour + " " + minutesString + ' ' + amOrPm);    
+        } else if (daysBetween == 1) {
+          response.say('Your next appointment with ' + response.get('[[doctor]]') + ' is tomorrow at ' + hour + " " + minutesString + ' ' + amOrPm);  
+        }
+        else if (daysBetween < 7) {
+          response.say('Your next appointment with ' + response.get('[[doctor]]') + ' is on ' + dayOfTheWeek + ' at ' + hour + " " + minutesString + ' ' + amOrPm);  
+        } else {
+          response.say('Your next appointment with ' + response.get('[[doctor]]') + ' is on ' + dayOfTheWeek + ' ' + apptMonth + ' ' + apptDayOfTheMonth + ' at ' + hour + " " + minutes+ ' ' + amOrPm);  
+        }
+      }
+    }
+    else {
+      response.say('I do not see an appointment with ' + response.get('[[doctor]]') + ' on your calendar. Would you like me to schedule one?');
+    }
+
+    
+  }
 });
 
 violet.registerIntents();

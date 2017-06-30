@@ -184,7 +184,7 @@ violet.defineGoal({
        response.say('Okay. If you need me, I\'m here to help');
       }
     }, 
-    {expecting: ['That works for me'],
+    {expecting: ['Yes that works'],
       resolve: (response) => {
         //response.set('{{schedule}}', 'next');
         response.say('Okay. Let me check your calendars and find the best time');

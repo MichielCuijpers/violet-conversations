@@ -8,7 +8,8 @@ violet.setPersistentStore(violetSFStore.store);
 
 violetSFStore.store.propOfInterest = {
   'appointment': ['doctorName', 'appointmentDateTime'],
-  'Citizen_Preference': ['Profile_Name', 'Biking']
+  'Citizen_Preference': ['Profile_Name', 'Biking'],
+  'reminder': ['description', 'date']
 }
 
 const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -32,7 +33,7 @@ Date.daysBetween = function( date1, date2 ) {
 //Violet queries for list of doctors associated with me and creates an array of expected results
 violet.addKeyTypes({
   'doctor': 'AMAZON.US_FIRST_NAME',
-  'symptomList': 'AMAZON.LITERAL',
+  'reminderText': 'AMAZON.LITERAL',
   'diabetesSymptomOne': {
     'type': 'symptomDesc',
     'values': ['tired',
@@ -128,12 +129,6 @@ violet.defineGoal({
       console.log('diabetesSymptomFour ' + symptomFour);
       console.log('diabetesSymptomFive ' + symptomFive);
 
-      /*
-      TODO: set the user preferences in haiku based on symptoms
-      yield response.store('Citizen_Preference', {'Profile_Name': 'Default',
-                                                  'Biking': 'true'});
-      */
-
       var symptoms = '';
 
       if (symptomOne) {
@@ -156,12 +151,6 @@ violet.defineGoal({
         symptoms = symptoms + '; ' + symptomFive;
       }
 
-      /*
-      TODO: Given the symptoms, it should query salesforce to figure out best match. 
-      set the user preferences in haiku based on condition
-      */
-      response.set('{{condition}}', 'diabetes');
-
       if (symptoms.indexOf('nausea') >= 0) {
         violetSFStore.updater.updatePreferences('nausea__c', true);
       }
@@ -173,6 +162,12 @@ violet.defineGoal({
       if (symptoms.indexOf('frequent urination') >= 0) {
         violetSFStore.updater.updatePreferences('frequent_urination__c', true);
       }
+
+      /*
+      TODO: Given the symptoms, it should query salesforce to figure out best match. 
+      set the user preferences in haiku based on condition
+      */
+      response.set('{{condition}}', 'diabetes');
 
       //response.set('{{symptoms}}', 'next');
       response.addGoal('{{schedule}}');
@@ -272,6 +267,23 @@ violet.respondTo({
     
   }
 });
+
+violet.respondTo({
+  expecting: ['Can you set a reminder for me', 'I would like to set a reminder'],
+  resolve: (response) => {
+   response.say('Go ahead. I\'m listening');
+}});
+
+violet.respondTo({
+  expecting: ['Please add the following: [[reminderText]]'],
+  resolve: (response) => {
+   response.say('Got it! I heard ' + response.get('[[reminderText]]'));
+   console.log('here\'s what I heard: ' + response.get('[[reminderText]]'));
+
+   response.set('<<reminder.date>>', new Date() );
+   response.set('<<reminder.description>>', response.get('[[reminderText]]') );
+   response.store('<<reminder>>');
+}});
 
 violet.registerIntents();
 

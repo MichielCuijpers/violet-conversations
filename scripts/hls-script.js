@@ -152,15 +152,15 @@ violet.defineGoal({
       }
 
       if (symptoms.indexOf('nausea') >= 0) {
-        yield violetSFStore.updater.updatePreferences('nausea__c', true);
+        violetSFStore.updater.updatePreferences('nausea__c', true);
       }
 
       if (symptoms.indexOf('fatigue') >= 0) {
-        yield violetSFStore.updater.updatePreferences('fatigue__c', true);
+        violetSFStore.updater.updatePreferences('fatigue__c', true);
       }
 
       if (symptoms.indexOf('frequent urination') >= 0) {
-        yield violetSFStore.updater.updatePreferences('frequent_urination__c', true);
+        violetSFStore.updater.updatePreferences('frequent_urination__c', true);
       }
 
       /*
@@ -184,7 +184,7 @@ violet.defineGoal({
        response.say('Okay. If you need me, I\'m here to help');
       }
     }, 
-    {expecting: ['Please check my calendar and make it happen', 'Sure', 'Please'],
+    {expecting: ['Check my calendar and make it happen', 'Sure', 'Please'],
       resolve: (response) => {
         //response.set('{{schedule}}', 'next');
         response.say('Checking both calendars');

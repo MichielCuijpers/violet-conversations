@@ -107,7 +107,7 @@ violet.defineGoal({
   goal: '{{symptoms}}',
   prompt: ['I am sorry to hear that. What\'s going on?', 'I am sorry to hear that. Tell me what you\'re feeling'],
   respondTo: [{
-    expecting: ['Nevermind', 'Gotta run now', 'Don\'t want to talk about it'],
+    expecting: ['Don\'t want to talk about it'],
     resolve: (response) => {
      response.say('Okay. If you need me, I\'m here to help');
   }}, {
@@ -178,7 +178,7 @@ violet.defineGoal({
   goal: '{{schedule}}',
   prompt: ['Given your symptoms, we recommend lab work and consultation with a doctor to determine if you have early signs of diabetes. Would you like me to schedule an appointment for you?'],
   respondTo: [
-    {expecting: ['Nevermind', 'Gotta run now', 'Nope'],
+    {expecting: ['Nevermind', 'Nope'],
       resolve: (response) => {
        response.set('{{schedule}}', 'next');
        response.say('Okay. If you need me, I\'m here to help');

@@ -176,7 +176,7 @@ violet.defineGoal({
 
 violet.defineGoal({
   goal: '{{schedule}}',
-  prompt: ['Given your symptoms, we recommend lab work and consultation with a doctor to determine if you have early signs of diabetes. Would you like me to schedule an appt for you?'],
+  prompt: ['Given your symptoms, we recommend lab work and consultation with a doctor to determine if you have early signs of diabetes. Would you like me to schedule an appointment for you?'],
   respondTo: [
     {expecting: ['Nevermind', 'Gotta run now', 'Nope'],
       resolve: (response) => {
@@ -184,7 +184,7 @@ violet.defineGoal({
        response.say('Okay. If you need me, I\'m here to help');
       }
     }, 
-    {expecting: ['Yes', 'Sure', 'Please'],
+    {expecting: ['Yes please schedule my appointment', 'Sure', 'Please'],
       resolve: (response) => {
         //response.set('{{schedule}}', 'next');
         response.addGoal('{{confirmAppointment}}');

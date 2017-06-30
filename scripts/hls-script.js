@@ -107,7 +107,7 @@ violet.defineGoal({
   goal: '{{symptoms}}',
   prompt: ['I am sorry to hear that. What\'s going on?', 'I am sorry to hear that. Tell me what you\'re feeling'],
   respondTo: [{
-    expecting: ['Don\'t want to talk about it'],
+    expecting: ['Do not want to talk about it'],
     resolve: (response) => {
      response.say('Okay. If you need me, I\'m here to help');
   }}, {
@@ -184,7 +184,7 @@ violet.defineGoal({
        response.say('Okay. If you need me, I\'m here to help');
       }
     }, 
-    {expecting: ['Yes', 'Sure', 'Please'],
+    {expecting: ['That works for me'],
       resolve: (response) => {
         //response.set('{{schedule}}', 'next');
         response.say('Okay. Let me check your calendars and find the best time');
@@ -203,7 +203,7 @@ violet.defineGoal({
        response.say('Okay. I will look for a different time');
       }
     }, 
-    {expecting: ['That\'s perfect'],
+    {expecting: ['That is perfect'],
       resolve: (response) => {
         response.say('I\'ve scheduled you. When your lab results come back, we\'ll evaluate the treatment options and determine best options for you.');        
       }

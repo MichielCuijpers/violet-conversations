@@ -197,7 +197,7 @@ violet.defineGoal({
   goal: '{{confirmAppointment}}',
   prompt: ['I see something is available for Thursday morning. Will that work for you?'],
   respondTo: [
-    {expecting: ['Nevermind', 'Gotta run now', 'Nope'],
+    {expecting: ['Cannot do that time'],
       resolve: (response) => {
        response.say('Okay. If you need me, I\'m here to help');
       }

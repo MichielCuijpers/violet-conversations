@@ -187,6 +187,7 @@ violet.defineGoal({
     {expecting: ['Please check my calendar and make it happen', 'Sure', 'Please'],
       resolve: (response) => {
         //response.set('{{schedule}}', 'next');
+        response.say('Checking both calendars');
         response.addGoal('{{confirmAppointment}}');
       }
     }

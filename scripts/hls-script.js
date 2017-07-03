@@ -100,14 +100,14 @@ violet.addTopLevelGoal('{{telemedicine}}');
 violet.respondTo({
   expecting: ['I am not feeling well'],
   resolve: (response) => {
-   response.addGoal('{{schedule}}');
+   response.addGoal('{{symptoms}}');
 }});
 
 violet.defineGoal({
   goal: '{{symptoms}}',
   prompt: ['I am sorry to hear that. What\'s going on?', 'I am sorry to hear that. Tell me what you\'re feeling'],
   respondTo: [{
-    expecting: ['Do not want to talk about it'],
+    expecting: ['Nevermind', 'Gotta run now', 'Don\'t want to talk about it'],
     resolve: (response) => {
      response.say('Okay. If you need me, I\'m here to help');
   }}, {
@@ -176,18 +176,17 @@ violet.defineGoal({
 
 violet.defineGoal({
   goal: '{{schedule}}',
-  prompt: ['Given your symptoms, we recommend lab work and consultation with a doctor to determine if you have early signs of diabetes. Would you like me to schedule an appointment for you?'],
+  prompt: ['Given your symptoms, we recommend lab work and consultation with a doctor to determine if you have early signs of diabetes. Would you like me to schedule an appt for you?'],
   respondTo: [
-    {expecting: ['Nevermind', 'Nope'],
+    {expecting: ['Nevermind', 'Gotta run now', 'Nope'],
       resolve: (response) => {
        response.set('{{schedule}}', 'next');
        response.say('Okay. If you need me, I\'m here to help');
       }
     }, 
-    {expecting: ['Yes that works for me'],
+    {expecting: ['Yes', 'Sure', 'Please'],
       resolve: (response) => {
         //response.set('{{schedule}}', 'next');
-        response.say('Okay. Let me check your calendars and find the best time');
         response.addGoal('{{confirmAppointment}}');
       }
     }
@@ -196,20 +195,95 @@ violet.defineGoal({
 
 violet.defineGoal({
   goal: '{{confirmAppointment}}',
-  prompt: ['I see something is available for Thursday morning at 8am. Will that work for you?'],
+  prompt: ['I see something is available for Thursday morning. Will that work for you?'],
   respondTo: [
-    {expecting: ['Cannot do that time'],
+    {expecting: ['Nevermind', 'Gotta run now', 'Nope'],
       resolve: (response) => {
-       response.say('Okay. I will look for a different time');
+       response.say('Okay. If you need me, I\'m here to help');
       }
     }, 
-    {expecting: ['That is perfect'],
+    {expecting: ['That\'s perfect'],
       resolve: (response) => {
         response.say('I\'ve scheduled you. When your lab results come back, we\'ll evaluate the treatment options and determine best options for you.');        
       }
     }
   ]
 });
+
+violet.respondTo({
+ expecting: ['When is my appointment with [[doctor]]?', 'When do I see [[doctor]] next', 'Do I have an upcoming appointment with [[doctor]]'],
+  resolve: function *(response) {
+    var apptDateArray = yield response.load('<<appointment>>', '<<appointment.doctorName>>', response.get('[[doctor]]'), null, 'AND appointmentDateTime__c >= today ORDER BY appointmentDateTime__c ASC NULLS FIRST LIMIT 1');
+    
+    console.log(apptDateArray);
+
+    if (apptDateArray.length > 0) {
+      var apptDateTime = response.get('<<appointment>>')[0].appointmentDateTime;
+
+      if (apptDateTime) {
+        var apptDate = new Date(apptDateTime);
+        var noDayOfWeek = apptDate.getDay();
+        var dayOfTheWeek = days[noDayOfWeek];
+        var daysBetween = Date.daysBetween(new Date(), apptDate);
+        var apptMonth = months[apptDate.getMonth()];
+        var apptDayOfTheMonth = apptDate.getDate();
+        var hour = apptDate.getHours();
+        var minutes = apptDate.getMinutes();
+        var minutesString = minutes;
+
+        var amOrPm = 'A M';
+
+        if (hour >= 12) {
+          amOrPm = 'P M'
+        }
+
+        if (hour > 12) {
+          hour = hour - 12;
+        }
+
+        if (minutes == 0) {
+          minutesString = '';
+        }
+
+
+        console.log(daysBetween);
+          
+        if (daysBetween == 0) {
+          response.say('Your next appointment with ' + response.get('[[doctor]]') + ' is today at ' + hour + " " + minutesString + ' ' + amOrPm);    
+        } else if (daysBetween == 1) {
+          response.say('Your next appointment with ' + response.get('[[doctor]]') + ' is tomorrow at ' + hour + " " + minutesString + ' ' + amOrPm);  
+        }
+        else if (daysBetween < 7) {
+          response.say('Your next appointment with ' + response.get('[[doctor]]') + ' is on ' + dayOfTheWeek + ' at ' + hour + " " + minutesString + ' ' + amOrPm);  
+        } else {
+          response.say('Your next appointment with ' + response.get('[[doctor]]') + ' is on ' + dayOfTheWeek + ' ' + apptMonth + ' ' + apptDayOfTheMonth + ' at ' + hour + " " + minutes+ ' ' + amOrPm);  
+        }
+      }
+    }
+    else {
+      response.say('I do not see an appointment with ' + response.get('[[doctor]]') + ' on your calendar. Would you like me to schedule one?');
+    }
+
+    
+  }
+});
+
+violet.respondTo({
+  expecting: ['Can you set a reminder for me', 'I would like to set a reminder'],
+  resolve: (response) => {
+   response.say('Go ahead. I\'m listening');
+}});
+
+violet.respondTo({
+  expecting: ['Please add the following: [[reminderText]]'],
+  resolve: (response) => {
+   response.say('Got it! I heard ' + response.get('[[reminderText]]'));
+   console.log('here\'s what I heard: ' + response.get('[[reminderText]]'));
+
+   response.set('<<reminder.date>>', new Date() );
+   response.set('<<reminder.description>>', response.get('[[reminderText]]') );
+   response.store('<<reminder>>');
+}});
 
 violet.registerIntents();
 

@@ -152,15 +152,15 @@ violet.defineGoal({
       }
 
       if (symptoms.indexOf('nausea') >= 0) {
-        //violetSFStore.updater.updatePreferences('nausea__c', true);
+        violetSFStore.updater.updatePreferences('nausea__c', true);
       }
 
       if (symptoms.indexOf('fatigue') >= 0) {
-        //violetSFStore.updater.updatePreferences('fatigue__c', true);
+        violetSFStore.updater.updatePreferences('fatigue__c', true);
       }
 
       if (symptoms.indexOf('frequent urination') >= 0) {
-        //violetSFStore.updater.updatePreferences('frequent_urination__c', true);
+        violetSFStore.updater.updatePreferences('frequent_urination__c', true);
       }
 
       /*

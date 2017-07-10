@@ -2,8 +2,8 @@
 
 var violet = require('../lib/violet.js')('einstein');
 var violetUtils = require('../lib/violetUtils.js')(violet);
-
 var violetSFStore = require('../lib/violetStoreSF.js')(violet);
+
 violetSFStore.store.propOfInterest = {
   'Case*': ['CaseNumber*', 'Contact*.Name*', /*'Contact*.Owner*.Name*',*/ 'Subject*', 'Status*', 'Priority*']
 }

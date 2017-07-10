@@ -2,9 +2,7 @@
 
 var violet = require('../lib/violet.js')('einstein');
 var violetUtils = require('../lib/violetUtils.js')(violet);
-
-var violetSFStore = require('../lib/violetSFStore.js');
-violet.setPersistentStore(violetSFStore.store);
+var violetSFStore = require('../lib/violetStoreSF.js')(violet);
 
 violetSFStore.store.propOfInterest = {
   'appointment': ['doctorName', 'appointmentDateTime'],
@@ -152,15 +150,16 @@ violet.defineGoal({
       }
 
       if (symptoms.indexOf('nausea') >= 0) {
-        violetSFStore.updater.updatePreferences('nausea__c', true);
+        violetSFStore.update("Citizen_Preference", "Name", "IP-0001", updateData);
+        //violetSFStore.updater.updatePreferences('nausea__c', true);
       }
 
       if (symptoms.indexOf('fatigue') >= 0) {
-        violetSFStore.updater.updatePreferences('fatigue__c', true);
+        //violetSFStore.updater.updatePreferences('fatigue__c', true);
       }
 
       if (symptoms.indexOf('frequent urination') >= 0) {
-        violetSFStore.updater.updatePreferences('frequent_urination__c', true);
+        //violetSFStore.updater.updatePreferences('frequent_urination__c', true);
       }
 
       /*

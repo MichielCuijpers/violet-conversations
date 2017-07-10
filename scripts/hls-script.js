@@ -152,16 +152,17 @@ violet.defineGoal({
       if (symptoms.indexOf('nausea') >= 0) {
         var updateData = {'nausea': true};
         response.update('Citizen_Preference', 'Name*', 'IP-0001', updateData);
+        //violetStoreSF.describer.describe();
         //violetStoreSF.updater.updatePreferences('nausea__c', true);
       }
 
       if (symptoms.indexOf('fatigue') >= 0) {
-        var updateData = {'fatigue__c', true};
+        var updateData = {'fatigue__c': true};
         response.update('Citizen_Preference', 'Name*', 'IP-0001', updateData);
       }
 
       if (symptoms.indexOf('frequent urination') >= 0) {
-        var updateData = {'frequent_urination__c', true};
+        var updateData = {'frequent_urination__c': true};
         response.update('Citizen_Preference', 'Name*', 'IP-0001', updateData);
       }
 

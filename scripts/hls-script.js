@@ -157,12 +157,12 @@ violet.defineGoal({
       }
 
       if (symptoms.indexOf('fatigue') >= 0) {
-        var updateData = {'fatigue__c': true};
+        var updateData = {'fatigue': true};
         response.update('Citizen_Preference', 'Name*', 'IP-0001', updateData);
       }
 
       if (symptoms.indexOf('frequent urination') >= 0) {
-        var updateData = {'frequent_urination__c': true};
+        var updateData = {'frequent_urination': true};
         response.update('Citizen_Preference', 'Name*', 'IP-0001', updateData);
       }
 

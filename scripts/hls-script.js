@@ -2,13 +2,11 @@
 
 var violet = require('../lib/violet.js')('einstein');
 var violetUtils = require('../lib/violetUtils.js')(violet);
+var violetStoreSF = require('../lib/violetStoreSF.js')(violet);
 
-var violetSFStore = require('../lib/violetSFStore.js');
-violet.setPersistentStore(violetSFStore.store);
-
-violetSFStore.store.propOfInterest = {
+violetStoreSF.store.propOfInterest = {
   'appointment': ['doctorName', 'appointmentDateTime'],
-  'Citizen_Preference': ['Profile_Name', 'Biking'],
+  'Citizen_Preference': ['Id*', 'Name*', 'Profile_Name', 'Biking', 'nausea', 'fatigue', 'frequent_urination'],
   'reminder': ['description', 'date']
 }
 
@@ -152,15 +150,20 @@ violet.defineGoal({
       }
 
       if (symptoms.indexOf('nausea') >= 0) {
-        //violetSFStore.updater.updatePreferences('nausea__c', true);
+        var updateData = {'nausea': true};
+        response.update('Citizen_Preference', 'Name*', 'IP-0001', updateData);
+        //violetStoreSF.describer.describe();
+        //violetStoreSF.updater.updatePreferences('nausea__c', true);
       }
 
       if (symptoms.indexOf('fatigue') >= 0) {
-        //violetSFStore.updater.updatePreferences('fatigue__c', true);
+        var updateData = {'fatigue': true};
+        response.update('Citizen_Preference', 'Name*', 'IP-0001', updateData);
       }
 
       if (symptoms.indexOf('frequent urination') >= 0) {
-        //violetSFStore.updater.updatePreferences('frequent_urination__c', true);
+        var updateData = {'frequent_urination': true};
+        response.update('Citizen_Preference', 'Name*', 'IP-0001', updateData);
       }
 
       /*

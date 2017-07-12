@@ -1,9 +1,4 @@
 
-// module.exports = require('./demo1-script.js');
-// module.exports = require('./fins-script.js');
-// module.exports = require('./sample-tutorial-script.js');
-// module.exports = require('./hls-diabetes-script.js');
-
 var violet = require('../../lib/violet.js')('einstein');
 var violetUtils = require('../../lib/violetUtils.js')(violet);
 
@@ -40,13 +35,13 @@ var loadTest = () => {
 
 var loadTest2 = () => {
   setTimeout(()=>{
-    response.load('<<diabetesLog>>', null, null, 'CreatedDate >= TODAY');
+    response.load('<<diabetesLog>>', null, null, 'CreatedDate < TODAY');
   }, 2*1000);
 };
 
 var loadTest3 = () => {
   setTimeout(()=>{
-    response.load('<<diabetesLog>>', '<<diabetesLog.user>>', 'blah:blah:blah2', 'CreatedDate >= TODAY');
+    response.load('<<diabetesLog>>', '<<diabetesLog.user>>', 'blah:blah:blah2', 'CreatedDate < TODAY');
   }, 2*1000);
 };
 
